@@ -1,11 +1,14 @@
-version: 2.1
+version: 2.2
 
 jobs:
   data_processing:
     docker:
       - image: cimg/python:3.9  # Python 3.9 image
     steps:
-      - checkout
+      - checkout:
+          path: ~/project
+          ref: main  # Replace 'main' with your branch name or commit hash
+
       - run:
           name: Set up environment
           command: |
