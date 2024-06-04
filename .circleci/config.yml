@@ -1,4 +1,4 @@
-version: 2.2
+version: 2.1
 
 jobs:
   data_processing:
@@ -15,26 +15,27 @@ jobs:
             python -m pip install --upgrade pip
             pip install notebook pandas matplotlib seaborn  # Example dependencies
 
-      # Debugging step: Print current directory contents
+      # Debugging step: Print directory contents before directory creation
       - run:
-          name: List directory contents
-          command: ls -la
-
-      # Debugging step: Print current working directory
-      - run:
-          name: Print current working directory
-          command: pwd
+          name: List directory contents before directory creation
+          command: ls -la notebooks
 
       # Debugging step: Create necessary directories
       - run:
           name: Create directories
           command: mkdir -p notebooks/processed_notebooks
 
+      # Debugging step: Print directory contents after directory creation
+      - run:
+          name: List directory contents after directory creation
+          command: ls -la notebooks
+
       # Run Jupyter notebook conversion
       - run:
           name: Execute data cleaning notebook
           command: |
             jupyter nbconvert --to notebook --ExecutePreprocessor.timeout=600 --execute notebooks/data-preprocessing.ipynb --output notebooks/processed_notebooks/data-preprocessing.ipynb
+          working_directory: ~/project
 
 workflows:
   version: 2
